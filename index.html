@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="VuthaStack — launch cloud infrastructure, data platforms, AI environments and Kubernetes resources in minutes." />
+  <title>VuthaStack | Cloud Infrastructure Made Simple</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: rgba(15, 30, 50, 0.76);
+      --panel-solid: #0f1e32;
+      --text: #eef6ff;
+      --muted: #9fb0c4;
+      --primary: #5de2a3;
+      --primary-2: #57a7ff;
+      --line: rgba(255, 255, 255, 0.10);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(87, 167, 255, 0.18), transparent 28%),
+        radial-gradient(circle at 88% 16%, rgba(93, 226, 163, 0.15), transparent 30%),
+        linear-gradient(180deg, #081321 0%, #07111f 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    .container {
+      width: min(1160px, calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 17, 31, 0.72);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary-2), var(--primary));
+      box-shadow: 0 10px 32px rgba(87, 167, 255, 0.3);
+      color: #06111f;
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 46px;
+      padding: 0 20px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      transition: .2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      color: #06111f;
+      background: linear-gradient(135deg, var(--primary), #8cf1c1);
+      box-shadow: 0 12px 30px rgba(93, 226, 163, 0.22);
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); }
+
+    .btn-secondary {
+      border-color: var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.08); }
+
+    .hero {
+      padding: 92px 0 70px;
+      display: grid;
+      grid-template-columns: 1.06fr .94fr;
+      align-items: center;
+      gap: 58px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 12px;
+      border: 1px solid rgba(93, 226, 163, 0.24);
+      border-radius: 999px;
+      background: rgba(93, 226, 163, 0.08);
+      color: #a9f3d1;
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 20px 0 18px;
+      font-size: clamp(3rem, 7vw, 5.8rem);
+      line-height: .98;
+      letter-spacing: -0.065em;
+      max-width: 760px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #ffffff, #7bbcff 47%, #68e5a8 92%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 650px;
+      font-size: 1.1rem;
+      margin: 0 0 30px;
+    }
+
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .trust-row {
+      margin-top: 34px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 26px;
+      color: #b9c7d7;
+      font-size: 0.92rem;
+    }
+
+    .trust-row span::before {
+      content: "✓";
+      color: var(--primary);
+      margin-right: 8px;
+      font-weight: 800;
+    }
+
+    .dashboard {
+      position: relative;
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(16, 34, 56, .94), rgba(10, 24, 41, .93));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .dashboard::before {
+      content: "";
+      position: absolute;
+      inset: -25% auto auto -20%;
+      width: 290px;
+      height: 290px;
+      background: rgba(87, 167, 255, .18);
+      filter: blur(70px);
+      border-radius: 50%;
+    }
+
+    .dash-top {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .dash-title { font-size: .95rem; font-weight: 700; }
+    .status { color: var(--primary); font-size: .82rem; font-weight: 700; }
+
+    .resource-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .resource-card {
+      min-height: 112px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+      padding: 16px;
+      transition: .2s ease;
+    }
+
+    .resource-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(93,226,163,.32);
+      background: rgba(93,226,163,.06);
+    }
+
+    .resource-card .icon { font-size: 1.45rem; }
+    .resource-card h3 { margin: 10px 0 4px; font-size: .96rem; }
+    .resource-card p { margin: 0; font-size: .77rem; color: var(--muted); }
+
+    .section { padding: 90px 0; }
+    .section-head { max-width: 700px; margin-bottom: 42px; }
+    .section-head.center { text-align: center; margin-inline: auto; }
+    .section-head h2 {
+      margin: 10px 0 14px;
+      font-size: clamp(2.15rem, 5vw, 3.7rem);
+      line-height: 1.08;
+      letter-spacing: -0.045em;
+    }
+    .section-head p { color: var(--muted); margin: 0; }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .feature {
+      padding: 26px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+    }
+
+    .feature .feature-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(87,167,255,.12);
+      font-size: 1.3rem;
+    }
+
+    .feature h3 { margin: 18px 0 8px; }
+    .feature p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .price-card {
+      position: relative;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255,255,255,.035);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .price-card.popular {
+      border-color: rgba(93,226,163,.45);
+      background: linear-gradient(180deg, rgba(93,226,163,.09), rgba(255,255,255,.035));
+      transform: translateY(-8px);
+      box-shadow: 0 22px 70px rgba(0,0,0,.25);
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #06111f;
+      font-size: .72rem;
+      font-weight: 800;
+    }
+
+    .price-card h3 { margin: 0; font-size: 1.25rem; }
+    .price-card .sub { color: var(--muted); font-size: .9rem; margin: 8px 0 20px; }
+    .price { font-size: 2.7rem; font-weight: 800; letter-spacing: -.04em; }
+    .price small { font-size: .88rem; font-weight: 500; color: var(--muted); }
+    .price-note { color: var(--muted); font-size: .82rem; min-height: 22px; }
+
+    .price-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 24px 0 26px;
+      color: #c7d4e2;
+      flex-grow: 1;
+    }
+    .price-card li { margin: 12px 0; }
+    .price-card li::before {
+      content: "✓";
+      color: var(--primary);
+      font-weight: 800;
+      margin-right: 10px;
+    }
+
+    .cta {
+      margin: 80px 0;
+      padding: 48px;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,.13);
+      background:
+        radial-gradient(circle at 85% 20%, rgba(93,226,163,.22), transparent 30%),
+        linear-gradient(135deg, rgba(87,167,255,.14), rgba(255,255,255,.035));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .cta h2 { margin: 0 0 8px; font-size: clamp(2rem, 5vw, 3.2rem); letter-spacing: -.045em; }
+    .cta p { margin: 0; color: var(--muted); }
+
+    footer {
+      padding: 32px 0 46px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .mobile-toggle { display: none; }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding-top: 70px; }
+      .features, .pricing-grid { grid-template-columns: 1fr; }
+      .price-card.popular { transform: none; }
+      .cta { align-items: flex-start; flex-direction: column; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 580px) {
+      .container { width: min(100% - 24px, 1160px); }
+      .hero { padding: 56px 0 46px; }
+      .hero h1 { font-size: 3rem; }
+      .resource-grid { grid-template-columns: 1fr; }
+      .dashboard { padding: 15px; }
+      .section { padding: 66px 0; }
+      .cta { padding: 32px 24px; }
+      .nav .btn { padding: 0 14px; min-height: 40px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand" aria-label="VuthaStack home">
+        <span class="brand-mark">🔥</span>
+        <span>VuthaStack</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#platform">Platform</a>
+        <a href="#features">Benefits</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#about">About CHPC</a>
+      </nav>
+      <a class="btn btn-primary" href="#pricing">Start building</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="container hero">
+      <div>
+        <span class="eyebrow">An initiative of the CHPC</span>
+        <h1><span class="gradient-text">Cloud infrastructure</span><br>without the complexity.</h1>
+        <p>
+          Launch virtual machines, JupyterLab workspaces, AI environments, managed databases and Kubernetes clusters from one streamlined platform.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#platform">Explore the platform →</a>
+          <a class="btn btn-secondary" href="#pricing">View pricing</a>
+        </div>
+        <div class="trust-row" aria-label="Platform benefits">
+          <span>Built for research</span>
+          <span>Secure by design</span>
+          <span>Fast self-service deployment</span>
+        </div>
+      </div>
+
+      <div class="dashboard" id="platform" aria-label="VuthaStack resource overview">
+        <div class="dash-top">
+          <div class="dash-title">Resource launcher</div>
+          <div class="status">● Platform online</div>
+        </div>
+        <div class="resource-grid">
+          <article class="resource-card"><div class="icon">🚀</div><h3>Virtual Machines</h3><p>Deploy secure compute instances in minutes.</p></article>
+          <article class="resource-card"><div class="icon">💻</div><h3>JupyterLab</h3><p>Ready-to-use notebook environments for research.</p></article>
+          <article class="resource-card"><div class="icon">🌐</div><h3>Auto Scaling</h3><p>Scale compute resources with changing workloads.</p></article>
+          <article class="resource-card"><div class="icon">🤖</div><h3>AI & Machine Learning</h3><p>Accelerated environments for model development.</p></article>
+          <article class="resource-card"><div class="icon">🗄️</div><h3>Managed Databases</h3><p>Reliable data services without admin overhead.</p></article>
+          <article class="resource-card"><div class="icon">☸️</div><h3>Kubernetes</h3><p>Production-ready container orchestration.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head center">
+          <span class="eyebrow">Why VuthaStack</span>
+          <h2>Everything you need to ignite your next project.</h2>
+          <p>From a first experiment to a large research workload, VuthaStack gives teams a simpler way to access modern cloud resources.</p>
+        </div>
+
+        <div class="features">
+          <article class="feature"><div class="feature-icon">⚡</div><h3>Launch faster</h3><p>Use guided workflows and reusable templates to provision infrastructure without waiting through long manual processes.</p></article>
+          <article class="feature"><div class="feature-icon">🔐</div><h3>Built-in security</h3><p>Manage networks, security groups and SSH key-pairs from the same clear, central interface.</p></article>
+          <article class="feature"><div class="feature-icon">📈</div><h3>Scale with confidence</h3><p>Start small and expand into managed databases, GPU-ready AI environments or Kubernetes as your needs grow.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="section-head center">
+          <span class="eyebrow">Simple pricing</span>
+          <h2>Choose a tier that fits your workload.</h2>
+          <p>Sample pricing structure — replace the amounts and quotas below with your approved production pricing.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="price-card">
+            <h3>Free</h3>
+            <p class="sub">For learning, testing and small experiments.</p>
+            <div class="price">R0 <small>/ month</small></div>
+            <div class="price-note">No monthly platform fee</div>
+            <ul>
+              <li>1 small virtual machine</li>
+              <li>Basic JupyterLab access</li>
+              <li>Community support</li>
+              <li>Shared network resources</li>
+              <li>Standard security groups</li>
+            </ul>
+            <a class="btn btn-secondary" href="#contact">Get started free</a>
+          </article>
+
+          <article class="price-card popular">
+            <span class="popular-badge">MOST POPULAR</span>
+            <h3>Research Pro</h3>
+            <p class="sub">For active projects and research teams.</p>
+            <div class="price">R499 <small>/ month</small></div>
+            <div class="price-note">Plus metered infrastructure usage</div>
+            <ul>
+              <li>Multiple virtual machines</li>
+              <li>AI / ML environments</li>
+              <li>Managed database instance</li>
+              <li>Priority technical support</li>
+              <li>Usage reporting and quotas</li>
+            </ul>
+            <a class="btn btn-primary" href="#contact">Choose Research Pro</a>
+          </article>
+
+          <article class="price-card">
+            <h3>Enterprise</h3>
+            <p class="sub">For institutions and large-scale programmes.</p>
+            <div class="price">Custom</div>
+            <div class="price-note">Tailored capacity and support</div>
+            <ul>
+              <li>Managed Kubernetes clusters</li>
+              <li>Dedicated network architecture</li>
+              <li>Custom compute and storage quotas</li>
+              <li>Onboarding and architecture support</li>
+              <li>Service-level agreements</li>
+            </ul>
+            <a class="btn btn-secondary" href="#contact">Contact the team</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="container cta" id="contact">
+      <div>
+        <h2>Ready to build on VuthaStack?</h2>
+        <p>Start with a free workspace or speak to the CHPC team about a larger deployment.</p>
+      </div>
+      <a class="btn btn-primary" href="mailto:support@example.org">Request access →</a>
+    </section>
+  </main>
+
+  <footer id="about">
+    <div class="container footer-inner">
+      <div class="brand"><span class="brand-mark">🔥</span><span>VuthaStack</span></div>
+      <div>An initiative of the Centre for High Performance Computing</div>
+      <div>© <span id="year"></span> VuthaStack</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
